@@ -1,29 +1,41 @@
-'use client';
-import { useQuery } from '@tanstack/react-query';
 import ProductCard from "@/components/ProductCard/ProductCard";
-import { IProduct } from '@/types';
-import styles from './page.module.css';
+import { Metadata } from "next";
+import { IProduct } from "@/types";
+import styles from "./page.module.css";
 
-async function fetchProducts() {
-  const res = await fetch('/api/products');
-  if (!res.ok) throw new Error('Failed to fetch products');
-  return res.json();
-}
+export const metadata: Metadata = {
+  title: "FakeApi",
+  description: "Prosucts List",
+  openGraph: {
+    title: "FakeApi",
+    description: "Best Products",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    siteName: "FakeApi",
+  },
+};
 
-export default function HomePage() {
-  const { data: products, isLoading, isError } = useQuery({
-    queryKey: ['products'],
-    queryFn: fetchProducts
-  });
+export default async function HomePage() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/products`, {
+      cache: "no-store",
+    });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong!</p>;
+    if (!res.ok) {
+      throw new Error("Failed to fetch products");
+    }
 
-  return (
-    <main className={styles.productGrid}>
-      {products?.map((product: IProduct) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </main>
-  );
+    const products: IProduct[] = await res.json();
+
+    return (
+      <main className={styles.productGrid}>
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </main>
+    );
+  } catch (error) {
+    console.error("Error loading products:", error);
+    return <p>Something went wrong while loading products.</p>;
+  }
 }

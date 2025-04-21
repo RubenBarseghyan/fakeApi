@@ -9,9 +9,16 @@ export async function GET() {
         { status: 500 }
       );
     }
+
     const data = await res.json();
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching products:", error.message);
+    } else {
+      console.error("Unknown error:", error);
+    }
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

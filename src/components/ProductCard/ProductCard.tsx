@@ -16,8 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           alt={product.title}
           width={200}
           height={200}
-          className={styles.image}
-          priority
+          
         />
         <h2 className={styles.title}>{product.title}</h2>
         <p className={styles.price}>${product.price.toFixed(2)}</p>

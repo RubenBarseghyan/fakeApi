@@ -15,7 +15,7 @@ export default function ProductDetails({ product }: ProductDetailProps) {
           alt={product.title}
           width={400}
           height={400}
-          className={styles.image}
+          priority={true}
         />
       </div>
       <div className={styles.info}>
