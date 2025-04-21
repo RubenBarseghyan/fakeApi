@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  runtime: "edge",
+  images: {
+    domains: ["fakestoreapi.com"],
+  },
 };
 
 export default nextConfig;
