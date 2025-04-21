@@ -1,5 +1,4 @@
 import Header from "@/components/Header/Header";
-import { ReactQueryClientProvider } from "@/lib/react-query";
 
 export const metadata = {
   title: "Fake Storefront",
@@ -17,8 +16,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header/>
-        <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+        <Header />
+        {children}
       </body>
     </html>
   );
